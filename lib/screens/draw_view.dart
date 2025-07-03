@@ -23,6 +23,12 @@ class _DrawViewState extends State<DrawView> {
     line.value = null;
   });
 
+  void navigateOnPress() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => BlindView(lines: lines.value)),
+    );
+  }
+
   void onPointerDown(PointerDownEvent details) {
     final supportsPressure = details.kind == PointerDeviceKind.stylus;
     options = options.copyWith(simulatePressure: !supportsPressure);
@@ -54,9 +60,31 @@ class _DrawViewState extends State<DrawView> {
     line.value = null;
   }
 
-  void navigateOnPress() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => BlindView(lines: lines.value)),
+  Future<void> _clearLineDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Apagar desenho'),
+          content: const Text('Você tem certeza que deseja apagar o desenho?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                clear();
+                Navigator.of(context).pop();
+              },
+              child: const Text('Apagar'),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -73,7 +101,7 @@ class _DrawViewState extends State<DrawView> {
         backgroundColor: const Color(0xff8257E5),
         actions: [
           IconButton(
-            onPressed: clear,
+            onPressed: () => _clearLineDialog(context),
             icon: const Icon(
               Icons.cleaning_services_outlined,
               color: Colors.white,
