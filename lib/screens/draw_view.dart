@@ -54,7 +54,7 @@ class _DrawViewState extends State<DrawView> {
     line.value = null;
   }
 
-  void navigatOnPress() {
+  void navigateOnPress() {
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) => BlindView(lines: lines.value)),
     );
@@ -73,7 +73,7 @@ class _DrawViewState extends State<DrawView> {
         backgroundColor: const Color(0xff8257E5),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: clear,
             icon: const Icon(
               Icons.cleaning_services_outlined,
               color: Colors.white,
@@ -82,7 +82,7 @@ class _DrawViewState extends State<DrawView> {
             tooltip: 'Limpar desenho',
           ),
           IconButton(
-            onPressed: navigatOnPress,
+            onPressed: navigateOnPress,
             icon: const Icon(
               Icons.switch_access_shortcut_add_rounded,
               color: Colors.white,
